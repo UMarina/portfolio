@@ -16,6 +16,7 @@
                   <th>ID</th>
                   <th>Title</th>
                   <th>URL</th>
+                  <th>Category</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -26,8 +27,16 @@
                   <td>{{ $p->id }}</td>
                   <td>{{ $p->title }}</td>
                   <td>{{ $p->url }}</td>
+                  <td>{{ $p->category }}</td>
                   <td><a href="{{ route('portfolio.edit',$p->id)}}" class="btn btn-info">Edit</a></td>
-                  <td>delete</td>
+                  <td>
+                        <form method="post" action="{{ route('portfolio.destroy',$p->id)}}">
+                              {{ csrf_field()}}
+                              {{ method_field('DELETE') }}
+                              <button class="btn btn-danger portfolio-del">Delete</button>
+                        </form>
+                  </td>
+                    
                 </tr>
                 @endforeach
               </tbody>

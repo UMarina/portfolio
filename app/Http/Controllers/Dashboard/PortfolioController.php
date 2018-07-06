@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
+use File;
 
 class PortfolioController extends Controller
 {
@@ -41,14 +42,20 @@ class PortfolioController extends Controller
     public function store(Request $request)
     {
         $portfolio=$request->all();
+        $request->validate([
+            'title'=>'required|max:255',
+            'description'=>'required',
+            'category'=>'required|max:255'
+        ]);
         if(!empty($portfolio['preview'])){
             $file=$request->file('preview');
-            $file->move('uploads/portfolio',$file->
-                       getClientOriginalName());
-            $portfolio['preview']=$file->getClientOriginalName();
+             $hash=md5(microtime());
+            $fileName=$hash.$file->getClientOriginalName();
+            $file->move('uploads/portfolio',$fileName);
+            $portfolio['preview']=$fileName;
         }
         Portfolio::create($portfolio);
-        return redirect()->route('portfolio');
+        return redirect()->route('portfolio.index');
     }
 
     /**
@@ -85,13 +92,20 @@ class PortfolioController extends Controller
     {
          $data=$request->all();
         if(!empty($data['preview'])){
+            
             $file=$request->file('preview');
-            $file->move('uploads/portfolio',$file->
-                       getClientOriginalName());
-            $data['preview']=$file->getClientOriginalName();
+            $hash=md5(microtime());
+            $fileName=$hash.$file->getClientOriginalName();
+            $file->move('uploads/portfolio',$fileName);
+            $data['preview']=$fileName;
         }
+            $path=public_path('uploads/portfolio/');
+            $fullpath=$path.$portfolio->preview;
+        if(File::isFile($fullpath)){
+            File::delete($fullpath);
+            }
         $portfolio->update($data);
-         return redirect()->route('portfolio');
+         return redirect()->route('portfolio.index');
         
     }
 
@@ -101,8 +115,17 @@ class PortfolioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(POrtfolio $portfolio)
     {
-        //
+        if(!empty($portfolio)){
+            $path=public_path('uploads/portfolio/');
+            $fullpath=$path.$portfolio->preview;
+            $portfolio->delete();
+            if(File::isFile($fullpath)){
+            File::delete($fullpath);
+            }
+        }
+             return redirect()->route('portfolio.index');
+
     }
 }

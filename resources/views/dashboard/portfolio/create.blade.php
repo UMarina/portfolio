@@ -10,6 +10,9 @@
       <div class="form-group">
         <label for="title">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+        @if ($errors->has('title'))
+        <span class="help-block"><strong>{{ $errors->first('title') }}</strong></span>
+        @endif
       </div>
       <div class="form-group">
         <label for="url">URL</label>
@@ -18,6 +21,9 @@
        <div class="form-group">
         <label for="category">URL</label>
         <input type="text" name="category" class="form-control" id="category" placeholder="Category">
+        @if ($errors->has('category'))
+        <span class="help-block"><strong>{{ $errors->first('category') }}</strong></span>
+        @endif
       </div>
       <div class="form-group">
         <label for="file">File input</label>
@@ -26,6 +32,9 @@
       <div class="form-group">
         <label for="description">Description</label>
         <textarea class="form-control"name="description" id="description"></textarea>  
+        @if ($errors->has('description'))
+        <span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>
+        @endif
       </div>
       <button type="submit" class="btn btn-default">Save</button>
       {{ csrf_field() }}
