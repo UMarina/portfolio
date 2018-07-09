@@ -11,6 +11,9 @@
       <div class="form-group">
         <label for="title">Title</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title" value="{{ $portfolio->title }}">
+         @if ($errors->has('title'))
+        <span class="help-block"><strong>{{ $errors->first('title') }}</strong></span>
+        @endif
       </div>
       <div class="form-group">
         <label for="url">URL</label>
@@ -19,14 +22,23 @@
        <div class="form-group">
         <label for="category">URL</label>
         <input type="text" name="category" class="form-control" id="category" placeholder="Category" value="{{ $portfolio->category }}">
+         @if ($errors->has('category'))
+        <span class="help-block"><strong>{{ $errors->first('category') }}</strong></span>
+        @endif
       </div>
       <div class="form-group">
         <label for="file">File input</label>
         <input type="file" name="preview" id="file">
       </div>
+         @if ($errors->has('preview'))
+        <span class="help-block"><strong>{{ $errors->first('preview') }}</strong></span>
+        @endif
       <div class="form-group">
         <label for="description">Description</label>
-        <textarea class="form-control"name="description" id="description">{{ $portfolio->description }}</textarea>  
+        <textarea class="form-control"name="description" id="description">{{ $portfolio->description }}</textarea> 
+        @if ($errors->has('description'))
+        <span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>
+        @endif 
       </div>
       <button type="submit" class="btn btn-default">Save</button>
       {{ csrf_field() }}

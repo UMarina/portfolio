@@ -29,6 +29,9 @@
         <label for="file">File input</label>
         <input type="file" name="preview" id="file">
       </div>
+        @if ($errors->has('preview'))
+        <span class="help-block"><strong>{{ $errors->first('preview') }}</strong></span>
+        @endif
       <div class="form-group">
         <label for="description">Description</label>
         <textarea class="form-control"name="description" id="description"></textarea>  

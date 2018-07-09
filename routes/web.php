@@ -31,4 +31,5 @@ Route::post('/dashboard/about', 'Dashboard\AboutController@store');
 Route::get('/dashboard/reports', 'Dashboard\ReportController@index')->name('reports');
 Route::get('/dashboard/settings', 'Dashboard\SettingController@index')->name('settings');
 Route::post('/dashboard/settings', 'Dashboard\SettingController@store');
+Route::resource('/dashboard/{model}','Dashboard\FactoryController');
 

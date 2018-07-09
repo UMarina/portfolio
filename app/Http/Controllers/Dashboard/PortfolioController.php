@@ -42,10 +42,11 @@ class PortfolioController extends Controller
     public function store(Request $request)
     {
         $portfolio=$request->all();
-        $request->validate([
-            'title'=>'required|max:255',
+        $this->validate($request,[
+             'title' => 'required|max:255',
             'description'=>'required',
-            'category'=>'required|max:255'
+            'category'=>'required|max:255',
+            'preview'=>'required|mimes:jpeg'
         ]);
         if(!empty($portfolio['preview'])){
             $file=$request->file('preview');
@@ -91,19 +92,30 @@ class PortfolioController extends Controller
     public function update(Request $request, Portfolio $portfolio)
     {
          $data=$request->all();
+        $this->validate($request,[
+             'title' => 'required|max:255',
+            'description'=>'required',
+            'category'=>'required|max:255',
+        ]);
+        $path=public_path('uploads/portfolio/');
+        $fullpath=$path.$portfolio->preview;
         if(!empty($data['preview'])){
+             $this->validate($request,[
+            'preview'=>'mimes:jpeg'
+        ]);
             
             $file=$request->file('preview');
             $hash=md5(microtime());
             $fileName=$hash.$file->getClientOriginalName();
             $file->move('uploads/portfolio',$fileName);
             $data['preview']=$fileName;
-        }
-            $path=public_path('uploads/portfolio/');
-            $fullpath=$path.$portfolio->preview;
-        if(File::isFile($fullpath)){
+            if(File::isFile($fullpath)){
             File::delete($fullpath);
             }
+        }
+            
+        
+        
         $portfolio->update($data);
          return redirect()->route('portfolio.index');
         

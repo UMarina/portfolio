@@ -63,6 +63,12 @@
                   Reports
                 </a>
               </li>
+               <li class="nav-item">
+                <a class="nav-link" href="{{ url('dashboard/skills') }}">
+                  <span data-feather="bar-chart-2"></span>
+                  Skills
+                </a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ route('settings') }}">
                   <span data-feather="layers"></span>
