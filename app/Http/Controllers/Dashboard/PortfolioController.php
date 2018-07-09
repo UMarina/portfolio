@@ -78,6 +78,7 @@ class PortfolioController extends Controller
      */
     public function edit(Portfolio $portfolio)
     {
+       
         return view('dashboard.portfolio.edit',[
                    'portfolio'=>$portfolio]);
     }
@@ -127,7 +128,7 @@ class PortfolioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(POrtfolio $portfolio)
+    public function destroy(Portfolio $portfolio)
     {
         if(!empty($portfolio)){
             $path=public_path('uploads/portfolio/');
