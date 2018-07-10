@@ -1,20 +1,25 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">{{ ucfirst($model) }}</h1>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">           
+    <h1 class="h2">{{ ucfirst($model).' '.$title }}</h1>
 </div>
 
-<form method="post" action="/dashboard/{{ $model }}">
+<form method="post" action="{{ empty($data)? '/dashboard/'.$model : '/dashboard/'.$model.'/'.$data->id }}">
+  
+   @foreach ($fields as $field)
+   
     <div class="form-group">
-        <label for="skill">Skill</label>
-        <input type="text" name="skill" class="form-control" id="skill" placeholder="Skill">
-      </div>
-      <div class="form-group">
-        <label for="value">Value</label>
-        <input type="text" name="value" class="form-control" id="value" placeholder="Value">
-      </div>
+        <label for="{{$field}}">{{$field!='id'? ucfirst($field):''}}</label>
+        <input type="{{$field=='id'? 'hidden':'text'}}" name="{{$field}}" class="form-control" id="{{$field}}" placeholder="{{ucfirst($field)}}" value="{{{$data->$field or null}}}">
+    </div>
+      
+    @endforeach
+    
     {{ csrf_field() }}
+    {{ !empty($data)? method_field('PATCH'): method_field('POST')}}
+    
     <button type="submit" class="btn btn-default">Save</button>
 </form>
 

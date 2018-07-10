@@ -24,34 +24,16 @@
       </div>
       <div class="container">
         <div class="row">
+          @foreach ($services as $service)
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-diamond text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Sturdy Templates</h3>
-              <p class="text-muted mb-0">Our templates are updated regularly so they don't break.</p>
+              <i class=" fa-4x {{$service->icon}} text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">{{ $service->title}}</h3>
+              <p class="text-muted mb-0">{{$service->descriptions}}</p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 text-center">
-            <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-paper-plane text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Ready to Ship</h3>
-              <p class="text-muted mb-0">You can use this theme as is, or you can make changes!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 text-center">
-            <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-newspaper-o text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Up to Date</h3>
-              <p class="text-muted mb-0">We update dependencies to keep things fresh.</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 text-center">
-            <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-heart text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Made with Love</h3>
-              <p class="text-muted mb-0">You have to make your websites with love these days!</p>
-            </div>
-          </div>
+        @endforeach
+         
         </div>
       </div>
     </section>
@@ -80,10 +62,22 @@
       </div>
     </section>
 
-    <section class="bg-dark text-white">
+    <section class="bg-dark text-white" id="skills">
       <div class="container text-center">
-        <h2 class="mb-4">Free Download at Start Bootstrap!</h2>
-        <a class="btn btn-light btn-xl sr-button" href="http://startbootstrap.com/template-overviews/creative/">Download Now!</a>
+        <h2 class="mb-4">My skills</h2>
+          <div class="row">
+          @foreach ($skills as $skill)
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <h3 class="mb-3">{{ $skill->skill}}</h3>
+              <div class="progress" style="height: 20px;">
+  <div class="progress-bar" role="progressbar" style="width: {{$skill->value}}%" aria-valuenow="{{$skill->value}}" aria-valuemin="0" aria-valuemax="100">{{$skill->value}}%</div>
+</div>
+            </div>
+          </div>
+        @endforeach
+         
+        </div>
       </div>
     </section>
 
@@ -102,7 +96,7 @@
             <p>{{$setting->tel}}</p>
           </div>
           <div class="col-lg-4 mr-auto text-center">
-            <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
+            <i class="fas fa-at fa-3x mb-3 sr-contact"></i>
             <p>
               <a href="mailto:{{$setting->email}}">{{$setting->email}}</a>
             </p>

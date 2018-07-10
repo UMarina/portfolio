@@ -46,7 +46,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('services') }}">
+                <a class="nav-link" href="{{ url('dashboard/services') }}">
                   <span data-feather="shopping-cart"></span>
                   Services
                 </a>

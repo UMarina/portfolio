@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">{{ ucfirst($model) }} page</h1>
+            <h1 class="h2">{{ ucfirst($model).' page' }} </h1>
 </div>
 
  <div class="nav-button">
@@ -30,7 +30,13 @@
                   <td>{{ $d->$field }}</td>
                   @endforeach
                   <td><a href="{{ url('/dashboard/'.$model.'/'.$d->id.'/edit')}}" class="btn btn-info">Edit</a></td>
-                  <td></td>
+                  <td>
+                        <form method="post" action="{{ url('/dashboard/'.$model.'/'.$d->id)}}">
+                              {{ csrf_field()}}
+                              {{ method_field('DELETE') }}
+                              <button class="btn btn-danger portfolio-del">Delete</button>
+                        </form>
+                  </td>
               </tr>
               @endforeach
               </tbody>

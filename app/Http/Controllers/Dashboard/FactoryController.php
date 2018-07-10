@@ -9,9 +9,10 @@ use App\Factory\CrudFactory;
 class FactoryController extends Controller
 {
     private $modelName;
+    
     public function __construct(Request $request)
     {
-        $this->modelName=$request->route('model');
+        $this->modelName=$request->route('models');
     }
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class FactoryController extends Controller
       return view('crud.index',[
             'model' => $this->modelName,
             'fields'=>$model->getFields(),
-            'data'=>$data
+            'data'=>$data,
         ]
         );
     }
@@ -36,10 +37,15 @@ class FactoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+       $factory=new CrudFactory();
+      $model=$factory->factoryModel($this->modelName);
     return view('crud.form',[
         'model' => $this->modelName,
+        'fields'=>$model->getFields(),
+        'title'=>'create'
+        
     ]);
     }
 
@@ -51,6 +57,7 @@ class FactoryController extends Controller
      */
     public function store(Request $request)
     {
+     
         $params=$request->all();
         $factory=new CrudFactory();
         $model=$factory->factoryModel($this->modelName);
@@ -77,9 +84,20 @@ class FactoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
-   {
-
+    public function edit(Request $request)
+    {  
+        
+        $id=$request->route('model');
+        $factory=new CrudFactory();
+        $model=$factory->factoryModel($this->modelName);
+        $data=$model->find($id);
+        return view('crud.form',[
+                   'data'=>$data,
+                    'model'=>$this->modelName,
+                    'fields'=>$model->getFields(),
+                    'title'=>$id.' edit'
+       
+       ]);
     }
 
     /**
@@ -89,9 +107,15 @@ class FactoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+       $param=$request->all();
+       $id=$request->route('model');
+       $factory=new CrudFactory();
+       $model=$factory->factoryModel($this->modelName);
+       $model->find($id)->update($param);
+       return redirect('/dashboard/'.$this->modelName);
+        
     }
 
     /**
@@ -100,8 +124,15 @@ class FactoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id=$request->route('model');
+        if(!empty($id)){
+             $factory=new CrudFactory();
+       $model=$factory->factoryModel($this->modelName);
+        $model->find($id)->delete();
+            
+        }
+        return redirect('/dashboard/'.$this->modelName);
     }
 }
